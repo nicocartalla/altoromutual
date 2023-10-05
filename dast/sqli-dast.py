@@ -1,5 +1,5 @@
 import requests
-url = 'http://localhost:8080/doLogin'
+url = 'http://localhost:8082/doLogin'
 
 headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -14,6 +14,7 @@ payloads = [
 ]
 
 exit_code = 0
+output = ""
 for payload in payloads:
     data = f"uid={payload}&passw=test&btnSubmit=Login"
     response = requests.post(url, headers=headers, data=data, allow_redirects=False)
@@ -21,18 +22,22 @@ for payload in payloads:
     if response.status_code == 302:
         if 'Set-Cookie' in response.headers and 'AltoroAccounts' in response.headers['Set-Cookie']:
             
+            output += f"[!] uid={payload},Se detectó inyección SQL en el login. \n"
+            output += f"\t Set-Cookie recibida: {response.headers['Set-Cookie']} \n"
             print(f"[!] uid={payload},Se detectó inyección SQL en el login.")
             print(f"\t Set-Cookie recibida: {response.headers['Set-Cookie']}")
             exit_code += 1
         else:
+            output += f"[*] Uid = {payload}, Se recibió un {response.status_code}, pero no se encontró la cookie AltoroAccounts. \n"
             print(f"[*] Uid = {payload}, Se recibió un {response.status_code}, pero no se encontró la cookie AltoroAccounts.")
             exit_code += 0
     else:
+        output += f"[*] Uid = {payload}, No se detectó el redireccionamiento {response.status_code} o el login falló. \n"
         print(f"[*] Uid = {payload}, No se detectó el redireccionamiento {response.status_code} o el login falló.")
         exit_code += 0
 
+with open('dast-report.txt', 'w') as f:
+    f.write(output)
+
 if exit_code == 1:
     exit(1)
-
-# print(response.status_code)
-# print(response.headers)
