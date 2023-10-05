@@ -20,11 +20,11 @@ jobs:
         apt-cache policy docker-ce
         sudo apt install docker-ce
 
-    - name: Build and run
+    - name: Build image
       run: |
-        docker build -t altoroj .
-        docker run -d -p 8080:8080 altoroj
+        docker build -t nicocartalla/altoromutual:latest .
 
     - name: Run DAST test
       run: |
-        python dast/main.py
+        docker build -t dast-test-altoro -f Dockerfile-dast .
+        docker run -d --name dast-test-altoro dast-test-altoro

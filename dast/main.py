@@ -16,7 +16,7 @@ def main():
     # Otros tests ...
     
     # Write report
-    with open('dast-report.txt', 'w') as f:
+    with open('/mnt/dast-report.txt', 'w') as f:
         f.write(total_output)    
     if total_exit_codes == 1:
         exit(1)

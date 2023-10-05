@@ -29,11 +29,11 @@ class SqlInjection():
                     print(f"\t Set-Cookie recibida: {response.headers['Set-Cookie']}")
                     exit_code += 1
                 else:
-                    output += f"[*] Uid = {payload}, Se recibió un {response.status_code}, pero no se encontró la cookie AltoroAccounts. \n"
-                    print(f"[*] Uid = {payload}, Se recibió un {response.status_code}, pero no se encontró la cookie AltoroAccounts.")
+                    output += f"[*] uid={payload}, Se recibió un {response.status_code}, pero no se encontró la cookie AltoroAccounts. \n"
+                    print(f"[*] uid={payload}, Se recibió un {response.status_code}, pero no se encontró la cookie AltoroAccounts.")
                     exit_code += 0
             else:
-                output += f"[*] Uid = {payload}, No se detectó el redireccionamiento {response.status_code} o el login falló. \n"
-                print(f"[*] Uid = {payload}, No se detectó el redireccionamiento {response.status_code} o el login falló.")
+                output += f"[*] uid={payload}, No se detectó el redireccionamiento {response.status_code} o el login falló. \n"
+                print(f"[*] uid={payload}, No se detectó el redireccionamiento {response.status_code} o el login falló.")
                 exit_code += 0
         return exit_code, output
