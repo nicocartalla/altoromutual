@@ -20,11 +20,11 @@ jobs:
         apt-cache policy docker-ce
         sudo apt install docker-ce
 
-    - name: Build Docker image
+    - name: Build and run
       run: |
         docker build -t altoroj .
         docker run -d -p 8080:8080 altoroj
 
     - name: Run DAST test
       run: |
-        python dast/sqli-dast.py
+        python dast/main.py

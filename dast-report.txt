@@ -1,0 +1,5 @@
+***** Login SQL Injection Test *****
+[*] Uid = admin, No se detectó el redireccionamiento 200 o el login falló. 
+[*] Uid = ''+--, No se detectó el redireccionamiento 200 o el login falló. 
+[*] Uid = admin'+or+1=1+--, No se detectó el redireccionamiento 200 o el login falló. 
+
