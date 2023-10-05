@@ -27,4 +27,4 @@ jobs:
     - name: Run DAST test
       run: |
         docker build -t dast-test-altoro -f Dockerfile-dast .
-        docker run -d --name dast-test-altoro dast-test-altoro
+        docker run dast-test-altoro
