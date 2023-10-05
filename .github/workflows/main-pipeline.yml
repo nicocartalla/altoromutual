@@ -2,7 +2,8 @@ name: "build image from Dockerfile"
 
 on:
   push:
-    branches: [AltoroJ-3.2]
+    branches:
+      - main
 
 jobs:
   test:
