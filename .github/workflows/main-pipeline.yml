@@ -1,7 +1,7 @@
 name: "build image from Dockerfile"
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -28,17 +28,5 @@ jobs:
         docker run -d -p 8080:8080 altoroj
 
     - name: Run DAST test
-      id: dast_test
-      run: echo "::set-output name=result::$(python dast/sqli-dast.sh)"
-
-    - name: Comment PR
-      uses: actions/github-script@v5
-      with:
-        script: |
-          const output = `${{ steps.dast_test.outputs.result }}`
-          github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
+      run: |
+        python dast/sqli-dast.py
