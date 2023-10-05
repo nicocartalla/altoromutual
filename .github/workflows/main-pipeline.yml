@@ -1,16 +1,14 @@
-name: "build image from Dockerfile"
+name: DAST
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  test:
+  validate-pr:
     runs-on: ubuntu-latest
 
     steps:
-
     - uses: actions/checkout@v2
 
     - name: Install docker
