@@ -65,9 +65,9 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
-    - name: Build image
-      run: |
-        docker build -t nicocartalla/altoromutual:latest .
+    # - name: Build image
+    #   run: |
+    #     docker build -t nicocartalla/altoromutual:latest .
 
     - name: Run DAST test
       run: |
