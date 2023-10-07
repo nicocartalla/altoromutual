@@ -1,2 +1,3 @@
 /.gradle/
 /bin/
+dast/__pycache__

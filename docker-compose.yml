@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  altoromutual:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nicocartalla/altoromutual:latest
+    volumes:
+      - ./.gradle:/cache
+

@@ -4,8 +4,9 @@ RUN curl -L https://services.gradle.org/distributions/gradle-3.0-bin.zip -o grad
     && unzip gradle-3.0-bin.zip \
     && rm -f gradle-3.0-bin.zip
 ENV PATH=$PATH:/gradle-3.0/bin
+ENV GRADLE_USER_HOME /cache
 WORKDIR /app
-COPY . .
+COPY . /app
 RUN gradle build
 
 FROM tomcat:8-jre8
