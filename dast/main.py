@@ -39,7 +39,7 @@ def main():
     with open('/tmp/dast-report.txt', 'w') as f:
         f.write(total_output)    
     if tests_error > 0:
-        exit(0)
+        exit(1)
 
 if __name__ == "__main__":
     main()
