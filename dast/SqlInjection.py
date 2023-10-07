@@ -36,4 +36,4 @@ class SqlInjection():
             else:
                     output += f"[*] uid={payload}, Redirection {response.status_code} not detected or login failed. \n"
                     print(f"[*] uid={payload}, Redirection {response.status_code} not detected or login failed.")
-        return exit_code, output
+        return exit_code, output, len(payloads)

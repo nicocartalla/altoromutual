@@ -29,4 +29,4 @@ class Xss():
                 output += f"[*] No XSS was detected in the URL: {target}\n"
                 print(f"[*] No XSS was detected in the URL: {target}")
 
-        return exit_code, output
+        return exit_code, output, len(payloads)
