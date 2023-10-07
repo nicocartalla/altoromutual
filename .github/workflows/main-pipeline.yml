@@ -20,11 +20,24 @@ jobs:
         apt-cache policy docker-ce
         sudo apt install docker-ce
 
+    - name: docker login
+      run: |
+        echo ${{ secrets.DOCKER_TOKEN }} | docker login -u nicocartalla --password-stdin
+
     - name: Build image
       run: |
         docker build -t nicocartalla/altoromutual:latest .
+
+    - name: Tag image with commit ID
+      run: |
+        docker tag nicocartalla/altoromutual:latest nicocartalla/altoromutual:${{ github.sha }}
 
     - name: Run DAST test
       run: |
         docker build -t dast-test-altoro -f Dockerfile-dast .
         docker run dast-test-altoro
+
+    - name: Push image tags to Docker Hub
+      run: |
+        docker push nicocartalla/altoromutual:latest
+        docker push nicocartalla/altoromutual:${{ github.sha }}
