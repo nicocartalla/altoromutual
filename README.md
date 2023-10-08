@@ -5,7 +5,7 @@
 
 Esta serie de pruebas fue diseñada con el propósito de detectar y resolver vulnerabilidades de seguridad en AltoroMutual. El objetivo principal es implementar pruebas sistemáticas que se realicen de manera recurrente, para así garantizar que no se reintroduzcan problemas que ya han sido solucionados previamente. La ejecución de estas pruebas en cada liberación es esencial para mantener la integridad y seguridad de la aplicación.
 
-### Instalación y prerrequsitos
+### Instalación y prerrequisitos
 
 Para realizar las pruebas es esencial contar con el entorno adecuado. Los prerrequisitos se detallan a continuación:
 
@@ -90,7 +90,7 @@ Total tests passed: 3/8
 
 #### Ejecución Automatizada mediante GitHub Actions
 
-Se ha implementado el pipeline `AltoroCI` , diseñado para automatizar y garantizar la seguridad del código cada vez que se realiza una acción con pull request hacia la rama `main`. 
+Se ha implementado el pipeline `AltoroCI` , diseñado para automatizar y garantizar la seguridad del código cada vez que se realiza una acción en un pull request hacia la rama `main`. 
 
 El primer paso consiste en hacer una copia del código del repositorio utilizando `actions/checkout@v2`. Posteriormente, el pipeline procede con la preparación del ambiente; para ello, instala Docker en la máquina virtual. Este proceso implica actualizar la lista de paquetes, instalar dependencias necesarias, añadir el repositorio oficial de Docker, y finalmente instalar Docker en si.
 
