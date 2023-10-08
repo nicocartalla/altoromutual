@@ -1,62 +1,101 @@
-# Description
-WARNING: This application contains security vulnerabilities. Run it only in a backed-up and sheltered environment (such as a VM with a recent snapshot and host-only networking) and at your own risk, escpecially if you enable some of the advanced options described below!
+# Consiga Obligatoria #4
+## ****Evaluación Automatizada de Vulnerabilidades en AltoroMutual****
+> Autores: Nicolás Cartalla, Carol Glass, Antonia Mescia
+> 
 
-AltoroJ is a sample banking J2EE web application. It shows what happens when web applications are written with consideration of app functionality but not app security. It's a simple and uncluttered platform for demonstrating and learning more about real-life application security issues.
+Esta serie de pruebas fue diseñada con el propósito de detectar y resolver vulnerabilidades de seguridad en AltoroMutual. El objetivo principal es implementar pruebas sistemáticas que se realicen de manera recurrente, para así garantizar que no se reintroduzcan problemas que ya han sido solucionados previamente. La ejecución de estas pruebas en cada liberación es esencial para mantener la integridad y seguridad de la aplicación.
 
-AltoroJ uses standard Java & JSP functionality without relying on any additional frameworks. While vast majority of real-life applications do use frameworks, the exact same principles of Application Security apply in both cases. Frameworks can also be hard to understand for someone not familiar with a particular framework and introduce complexities that detract from the overall learning experience. Not to mention, a large number of large and complex "legacy" Java web applications that look very similar to AltoroJ (but are infinitely more complex of course).
+### Instalación y prerrequsitos
 
-AltoroJ uses Apache Derby as its SQL database that is automatically initialized the first time you log into AltoroJ via its web interface. All of the transactions and operations will then be stored in this database from that point on until you delete your repository folder called "altoro" that is located in your OS home folder (e.g. C:\Users\[your_username] or /Users/[your_username]) or enable advanced option to re-initialize your database every time your web application server is restarted (see below).
+Para realizar las pruebas es esencial contar con el entorno adecuado. Los prerrequisitos se detallan a continuación:
 
-AltoroJ was created in 2008 and has gone through a number of iterations since then. It currently, being used around the world to demonstrate application security vulnerabilities, educate folks on how easy some of these issues are to exploit and how severe the impact may be, and is even a part of academic curricula. Even though AltoroJ is pretty stable, if you do find a bug or create a cool exploit for one of its vulnerabilities - please let us know!!!
+- **Proyecto AltoroJ**
+- **Python3**
+- **pip3**: Es la herramienta que se utilizará para instalar las librerías necesarias.
+- **Librería** `requests`
 
-# Binaries and hosted versions
-If you'd like to try AltoroJ but want to skip all of the cool software development stuff, use publicly hosted version, available at http://altoromutual.com:8080/ . You will not be able to enable any of the advanced options and this site may not always be available, but it's the easiest way to get started
+El proyecto puede ser corrido utilizando el entorno provisto por la cátedra. En caso de optar por esta alternativa, se deberán correr lo siguientes comandos en la terminal para instalar Python3, pip3 y `requests`:
 
+```bash
+sudo apt-get update
+sudo apt-get -y install python3
+sudo apt-get -y install python3-pip
+pip3 install requests
+```
 
-# Prereqiusites
-AltoroJ has been developed using Eclipse and designed to run on Tomcat 7, but since it's a relatively simple J2EE app, it should be pretty easy to port it to a different J2EE IDE or another J2EE web application server. Here are out-of-the-box requirements:
+Para quienes prefieran trabajar con Docker o no cuenten con la máquina virtual de la cátedra, se ha incluido en este repositorio una imagen de Docker que replica el ambiente provisto por la cátedra. Para usarla:
 
-- Eclipse 4.6 or newer recommended (requires Java 8)
-- Tomcat 7.x
-- Gradle 3.0 to build from command line
-- Gradle's Buildship Eclipse plug-in to automatically download required 3rd party libraries and run AltoroJ inside Eclipse
--- Easiest way to install Buildship is from Eclipse Marketplace (inside Eclipse, go to Help -> Eclipse Marketplace)
+1. Asegurar tener Docker instalado en el equipo.
+2. Clonar el repositorio y navegar al directorio donde se encuentra el Dockerfile.
+3. Construir la imagen con el siguiente comando:
 
-[Read more about importing AltoroJ into Eclipse from GitHub here](https://github.com/AppSecDev/AltoroJ/blob/master/Importing%20AltoroJ%20into%20Eclipse%20from%20GitHub.md)
+```bash
+docker build -t altoro .
+```
 
-# AltoroJ credentials
-Main usernames and passwords for AltoroJ are as follows:
-- jsmith/demo1234
-- admin/admin
+1. Una vez construida, ejecutar un contenedor basado en la imagen:
 
+```bash
+docker run -dp 8081:8080 altoro
+```
 
-# Advanced options
-AltoroJ’s original design goals were to create an application that is easy to deploy, very stable and less dangerous (as far as vulnerable web apps go). However, these goals meant that certain attacks couldn’t be a part of it. Because of this, there are advanced user-configurable properties that can enable AltoroJ behaviors which are disabled by default.These enable extra functionality, new cool attacks and demos as well as optional behaviors.
+### Descripción de las pruebas
 
-Please see WEB-INF/app.properties file for more information on each property
+#### Inyección SQL en Login
 
+El script `SqlInjection.py` está diseñado para comprobar si la funcionalidad de login de la aplicación es vulnerable a inyecciones SQL o no. Realiza varios intentos de inicio de sesión con distintos payloads que suelen ser indicativos de vulnerabilidades de inyección SQL. Si detecta un inicio de sesión válido cuando no debería serlo, retorna un código de salida 1, indicando que la aplicación es vulnerable. Si no detecta vulnerabilidades, retorna un código de salida 0. 
 
-# REST API
+#### Cross-Site Scripting en barra de búsqueda
 
-AltoroJ has a fairly extensive REST API, which is documented using Swagger. You can find out more about and interact with the provided REST services by clicking on the REST API link in the footer of almost every AltoroJ page.
+El script `Xss.py` ha sido diseñado para evaluar si la aplicación es susceptible a ataques Cross-Site Scripting (XSS), particularmente en la barra de búsqueda. Realiza varias peticiones con diferentes valores de entrada; si el HTML retornado lo contiene, se interpreta que la vulnerabilidad está presente.
 
+#### Consolidación de las pruebas
 
-# Troubleshooting
+El script `main**.**py` sirve como punto de entrada central para la ejecución de las pruebas. Una vez ejecutadas todas las pruebas, este script genera un reporte consolidado. Al estructurar el script de esta manera, se facilita la adición de nuevas pruebas en el futuro, haciendo que el proceso de evaluación de seguridad sea más eficiente y organizado. Los resultados podrán ser consultados por consola, o en el log `dast-report.txt` que se guarda en la carpeta `/tmp` .
 
-- Problem: AltoroJ runs, but an error “Failed to create database 'altoro‘” comes up when you try to log in
-- Cause: AltoroJ database does not get created. This is usually caused by folder permission issues on a locked-down system
-- Solution: 	
-To make sure this isn’t a fluke, try to log in again using jsmith/demo1234.
-AltoroJ uses Java’s user.home property as a base directory for its database so this shouldn’t happen. However, if it does. Take a look at your Eclipse Console, or if running directly on Tomcat, open "catalina.out" file from Tomcat’s logs folder in a text editor and look for “user.home=“. This is the folder that AltoroJ is trying to create another folder in and needs write access. You can then:
-Give the user Tomcat runs under read/write/create access to this folder (recommended)
-OR modify Tomcat’s startup to include –Duser.home=“<new_path>” in Java arguments to change DB location
+### **Ejecución de las pruebas**
 
-- Problem: AltoroJ does not run on Tomcat due to compilation errors
-- Cause: If you have compilation errors in Eclipse, Java build path is likely to blame
-- Solution: Run AltoroJ's Gradle build in order to download required third party libraries and build AltoroJ
+Existen dos formas principales de ejecutar las pruebas de seguridad:
 
+#### Ejecución Manual
 
-# License
+A continuación, se describen los pasos para correr las pruebas de forma manual:
 
-All files found in this project are licensed under the [Apache License 2.0](https://github.com/AppSecDev/AltoroJ/blob/master/LICENSE).
+1. Tener el proyecto levantado, sea utilizando la máquina virtual o con Docker.
+2. Estar parado en el directorio **`/**dast` del proyecto.
+3. Ejecutar el script `main.py` utilizando el siguiente comando:
 
+```python
+python3 main.py
+```
+
+1. Observar los resultados en la consola. Un posible resultado se ve de la siguiente forma:
+
+```python
+***** Login - SQL Injection Test *****
+[*] uid={'user': 'admin', 'passw': 'test'}, Received a 302, but the AltoroAccounts cookie was not found.
+[*] uid={'user': "'", 'passw': "'"}, Received a 302, but the AltoroAccounts cookie was not found.
+[*] uid={'user': '+--', 'passw': 'test'}, Received a 302, but the AltoroAccounts cookie was not found.
+[!] uid={'user': "admin' or 1=1 --", 'passw': 'test'}, SQL injection detected in the login.
+         Set-Cookie received: JSESSIONID=528AC2966378DD4EF5E9FC8EB26E9484; Path=/; HttpOnly, AltoroAccounts=ODAwMDAwfkNvcnBvcmF0ZX41LjIzOTQ3ODM2MUU3fDgwMDAwMX5DaGVja2luZ345MzgyMC40NHw4MDAwMDJ+U2F2aW5nc34xMDA$
+
+***** Search - Cross Site Scripting Test  *****
+[!] An XSS was detected in the URL: http://localhost:8081/search.jsp?query=%3Cscript%3Ealert%28document.cookie%29%3C%2Fscript%3E
+[!] An XSS was detected in the URL: http://localhost:8081/search.jsp?query=%3Cscript%3Ealert%28%27xss%27%29%3C%2Fscript%3E
+[!] An XSS was detected in the URL: http://localhost:8081/search.jsp?query=%3Cimg%20src%3Dx%20onerror%3Dalert%28%27xss%27%29%3E
+[!] An XSS was detected in the URL: http://localhost:8081/search.jsp?query=javascript%3Aalert%28%27xss%27%29
+
+Total tests passed: 3/8
+```
+
+#### Ejecución Automatizada mediante GitHub Actions
+
+Se ha implementado el pipeline `AltoroCI` , diseñado para automatizar y garantizar la seguridad del código cada vez que se realiza una acción con pull request hacia la rama `main`. 
+
+El primer paso consiste en hacer una copia del código del repositorio utilizando `actions/checkout@v2`. Posteriormente, el pipeline procede con la preparación del ambiente; para ello, instala Docker en la máquina virtual. Este proceso implica actualizar la lista de paquetes, instalar dependencias necesarias, añadir el repositorio oficial de Docker, y finalmente instalar Docker en si.
+
+Una vez que Docker está instalado y listo para ser utilizado, el siguiente paso es autenticarse en Docker Hub. Para ello utiliza un token secreto previamente almacenado en las variables secretas del repositorio. Con el acceso a Docker Hub establecido, el pipeline construye una imagen Docker para el proyecto `altoromutual`. Esta imagen es etiquetada como `latest`. Además, se crea una etiqueta adicional para esta imagen usando el ID del commit actual, lo que facilita la identificación en futuras revisiones.
+
+A continuación, se construye una imagen Docker específicamente diseñada para llevar a cabo las pruebas de seguridad, basándose en el archivo ****`Dockerfile-dast`. Una vez construida esta imagen, se ejecuta y pone en marcha las pruebas de seguridad en un contenedor aislado. Finalmente, el pipeline publica las etiquetas de imágenes, tanto `latest` como la etiquetada con el ID del commit, en Docker Hub. 
+
+Esta metodología asegura un proceso continuo de integración y despliegue que valora y prioriza la seguridad.
