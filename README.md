@@ -9,10 +9,10 @@ Esta serie de pruebas fue diseñada con el propósito de detectar y resolver vul
 
 Para realizar las pruebas es esencial contar con el entorno adecuado. Los prerrequisitos se detallan a continuación:
 
-- **Proyecto AltoroJ**
-- **Python3**
-- **pip3**: Es la herramienta que se utilizará para instalar las librerías necesarias.
-- **Librería** `requests`
+- Proyecto AltoroJ
+- Python3
+- pip3: Es la herramienta que se utilizará para instalar las librerías necesarias.
+- Librería `requests` de Python
 
 El proyecto puede ser corrido utilizando el entorno provisto por la cátedra. En caso de optar por esta alternativa, se deberán correr lo siguientes comandos en la terminal para instalar Python3, pip3 y `requests`:
 
@@ -96,6 +96,6 @@ El primer paso consiste en hacer una copia del código del repositorio utilizand
 
 Una vez que Docker está instalado y listo para ser utilizado, el siguiente paso es autenticarse en Docker Hub. Para ello utiliza un token secreto previamente almacenado en las variables secretas del repositorio. Con el acceso a Docker Hub establecido, el pipeline construye una imagen Docker para el proyecto `altoromutual`. Esta imagen es etiquetada como `latest`. Además, se crea una etiqueta adicional para esta imagen usando el ID del commit actual, lo que facilita la identificación en futuras revisiones.
 
-A continuación, se construye una imagen Docker específicamente diseñada para llevar a cabo las pruebas de seguridad, basándose en el archivo ****`Dockerfile-dast`. Una vez construida esta imagen, se ejecuta y pone en marcha las pruebas de seguridad en un contenedor aislado. Finalmente, el pipeline publica las etiquetas de imágenes, tanto `latest` como la etiquetada con el ID del commit, en Docker Hub. 
+A continuación, se construye una imagen Docker específicamente diseñada para llevar a cabo las pruebas de seguridad, basándose en el archivo `Dockerfile-dast`. Una vez construida esta imagen, se ejecuta y pone en marcha las pruebas de seguridad en un contenedor aislado. Finalmente, el pipeline publica las etiquetas de imágenes, tanto `latest` como la etiquetada con el ID del commit, en Docker Hub. 
 
 Esta metodología asegura un proceso continuo de integración y despliegue que valora y prioriza la seguridad.
