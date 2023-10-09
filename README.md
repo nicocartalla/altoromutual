@@ -1,4 +1,4 @@
-# Consiga Obligatoria #4
+# Consigna Obligatoria #4
 ## ****Evaluación Automatizada de Vulnerabilidades en AltoroMutual****
 > Autores: Nicolás Cartalla, Carol Glass, Antonia Mescia
 > 
