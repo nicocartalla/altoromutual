@@ -18,7 +18,7 @@ def main():
 
     # Login SQL Injection Test
     total_output += "***** Login - SQL Injection Test *****\n"
-    url = BASE_URL+"/doLogin"
+    url = BASE_URL+"/AltoroJ/doLogin"
     exit_code, output, tests = SqlInjection.doLoginSqlI(url)
     tests_error += exit_code
     total_tests += tests
@@ -26,7 +26,7 @@ def main():
     
     # Otros tests ...
     total_output += "***** Search - Cross Site Scripting Test  *****\n"
-    url = BASE_URL+"/search.jsp"
+    url = BASE_URL+"/AltoroJ/search.jsp"
     exit_code, output,tests = Xss.search(url)
     tests_error += exit_code
     total_tests += tests

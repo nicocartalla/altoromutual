@@ -10,7 +10,7 @@ COPY . /app
 RUN gradle build
 
 FROM tomcat:8-jre8
-COPY --from=build /app/build/libs/*.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=build /app/build/libs/*.war /usr/local/tomcat/webapps/AltoroJ.war
 
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
