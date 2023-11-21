@@ -1,12 +1,23 @@
 
-apply plugin: 'war'
+plugins {
+    id 'war'
+	id 'org.sonarqube' version '4.4.1.3373'
+
+}
+
+sonarqube {
+    properties {
+        property "sonar.sources", "src"
+        property "sonar.inclusions", "**/*.java,**/*.jsp"
+    }
+}
 
 webAppDirName = 'WebContent'
-sourceCompatibility = "1.7"; 
-targetCompatibility = "1.7";
+sourceCompatibility = JavaVersion.VERSION_11 
+targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 sourceSets {
@@ -14,30 +25,30 @@ sourceSets {
         java {
             srcDirs = ['src']
         }
-		resources {
+        resources {
             srcDirs = ['src']
         }
     }
 }
 
 dependencies {
-	compile \
-		fileTree(dir: "${webAppDirName}/WEB-INF/lib", include: '*.jar'),
-		'commons-codec:commons-codec:1.6',
-		'commons-lang:commons-lang:2.5',
-		'com.hynnet:commons-lang3:3.3.2',
-		'org.apache.derby:derby:10.8.2.2',
-		'org.glassfish.jersey.core:jersey-server:2.27',
-		'org.glassfish.jersey.containers:jersey-container-servlet:2.27',
-		'org.glassfish.jersey.inject:jersey-hk2:2.27',
-		'log4j:log4j:1.2.16',
-		'org.apache.wink:wink-json4j:1.4'
-	providedCompile \
-		'javax:javaee-api:7.0'
+    implementation \
+        fileTree(dir: "${webAppDirName}/WEB-INF/lib", include: '*.jar'),
+        'commons-codec:commons-codec:1.15',
+        'commons-lang:commons-lang:2.6',
+        'org.apache.commons:commons-lang3:3.12.0',
+        'org.apache.derby:derby:10.15.2.0',
+        'org.glassfish.jersey.core:jersey-server:2.34',
+        'org.glassfish.jersey.containers:jersey-container-servlet:2.34',
+        'org.glassfish.jersey.inject:jersey-hk2:2.34',
+        'log4j:log4j:1.2.17',
+        'org.apache.wink:wink-json4j:1.4'
+    providedCompile \
+        'jakarta.platform:jakarta.jakartaee-api:8.0.0'
 }
 
 war {
-	archiveName 'altoromutual.war'
-	exclude 'WEB-INF/classes/**/*.class'
-	exclude 'WEB-INF/lib/**/*.jar'
+    archiveFileName = 'altoromutual.war'
+    exclude 'WEB-INF/classes/**/*.class'
+    exclude 'WEB-INF/lib/**/*.jar'
 }
