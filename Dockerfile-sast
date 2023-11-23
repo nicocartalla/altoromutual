@@ -12,10 +12,6 @@ ENV GRADLE_USER_HOME /cache
 WORKDIR /app
 COPY . /app
 RUN gradle clean build
-
-
-FROM tomcat:8.5.96-jre17-temurin-focal
-COPY --from=build /app/build/libs/*.war /usr/local/tomcat/webapps/AltoroJ.war
-
-EXPOSE 8080
-CMD ["catalina.sh", "run"]
+COPY sast-entrypoint.sh /sast-entrypoint.sh
+RUN chmod +x /sast-entrypoint.sh
+CMD ["/sast-entrypoint.sh"]
