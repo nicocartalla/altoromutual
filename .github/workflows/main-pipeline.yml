@@ -40,7 +40,7 @@ jobs:
     - name: Run SAST test and push to SonarCloud
       run: |
         docker build -t sast-test-altoro -f Dockerfile-sast .
-        docker run -e SONAR_PROJECT_KEY=altoro  -e SONAR_PROJECT=altoro -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} -e SONAR_URL=${{ secrets.SONAR_TOKEN }} sast-test-altoro
+        docker run -e SONAR_PROJECT_KEY=altoro  -e SONAR_PROJECT=altoro -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} -e SONAR_URL=${{ secrets.SONAR_URL }} sast-test-altoro
 
     - name: Push image tags to Docker Hub
       run: |
