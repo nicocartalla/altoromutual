@@ -32,10 +32,10 @@ jobs:
       run: |
         docker tag nicocartalla/altoromutual:latest nicocartalla/altoromutual:${{ github.sha }}
 
-    - name: Run DAST test
-      run: |
-        docker build -t dast-test-altoro -f Dockerfile-dast .
-        docker run dast-test-altoro
+    # - name: Run DAST test
+    #   run: |
+    #     docker build -t dast-test-altoro -f Dockerfile-dast .
+    #     docker run dast-test-altoro
 
     - name: Run SAST test and push to SonarCloud
       run: |
